@@ -8,7 +8,7 @@ const createOrderIntoDB = async (order: Order) => {
   console.log(product, quantity);
   if (product.inventory.quantity > quantity) {
     const result = await OrderDataModel.create(order);
-    const updateProduct = await ProductModel.findByIdAndUpdate(productId, {
+    await ProductModel.findByIdAndUpdate(productId, {
       $set: { "inventory.quantity": product.inventory.quantity - quantity },
     });
     return result;
