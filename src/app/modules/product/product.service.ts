@@ -24,9 +24,20 @@ const UpdateSingleProductIntoDB = async (
   return result;
 };
 
+const getSearchedProductFromDB = async (searchTerm: string) => {
+  const regexSearchText = { $regex: new RegExp(searchTerm, "i") };
+  console.log(regexSearchText);
+  const result = await ProductModel.find({ name: regexSearchText }).sort({
+    name: 1,
+  });
+  console.log(result);
+  return result;
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getProductFromDB,
   getSingleProductFromDB,
   UpdateSingleProductIntoDB,
+  getSearchedProductFromDB,
 };
