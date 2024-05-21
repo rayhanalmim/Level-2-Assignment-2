@@ -5,11 +5,19 @@ const createOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
     const result = await OrderServices.createOrderIntoDB(order);
-    res.status(200).json({
-      success: true,
-      message: "Order created successfully!",
-      data: result,
-    });
+
+    if (result) {
+      res.status(200).json({
+        success: true,
+        message: "Order created successfully!",
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Insufficient quantity available in inventory",
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -32,17 +40,23 @@ const getOrder = async (req: Request, res: Response) => {
       });
     } else {
       const result = await OrderServices.getSingleOrderFromDB(email as string);
-      res.status(200).json({
-        success: true,
-        message: `Orders fetched successfully for user email!`,
-        data: result,
-      });
+      if (result) {
+        res.status(200).json({
+          success: true,
+          message: `Orders fetched successfully for user email!`,
+          data: result,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Order not found",
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Something went wrong!",
-      Error: error,
     });
   }
 };
