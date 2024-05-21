@@ -1,11 +1,11 @@
 import { Schema, model, connect } from "mongoose";
 
-type Variant = {
+export type Variant = {
   type: string;
   value: string;
 };
 
-type Inventory = {
+export type Inventory = {
   quantity: number;
   inStock: boolean;
 };
