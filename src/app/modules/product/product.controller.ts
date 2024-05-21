@@ -6,6 +6,7 @@ import joiValidationSchema from "./productValidatorUsingJoi";
 const createProduct = async (req: Request, res: Response) => {
   try {
     const product = req.body;
+
     const { error, value } = joiValidationSchema.validate(product);
     console.log({ value });
     console.log({ error });
@@ -103,9 +104,28 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+const deleteSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductServices.deleteSingleProductIntoDB(productId);
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully!",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong!",
+      Error: error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getProduct,
   getSingleProduct,
   updateSingleProduct,
+  deleteSingleProduct,
 };

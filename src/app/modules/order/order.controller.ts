@@ -1,9 +1,23 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./order.service";
+import orderValidationSchema from "./orderValidatorJoi";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
+
+    const { error, value } = orderValidationSchema.validate(order);
+    console.log({ value });
+    console.log({ error });
+
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Something went wrong!",
+        Error: error,
+      });
+    }
+
     const result = await OrderServices.createOrderIntoDB(order);
 
     if (result) {
