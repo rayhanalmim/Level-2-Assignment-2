@@ -10,6 +10,6 @@ const orderDataSchema = new Schema<Order>({
 });
 
 // Create and export the model
-const OrderDataModel = model<Order>("ProductData", orderDataSchema);
+const OrderDataModel = model<Order>("OrderData", orderDataSchema);
 
 export default OrderDataModel;
